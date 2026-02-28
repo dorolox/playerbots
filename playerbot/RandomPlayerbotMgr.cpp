@@ -3255,7 +3255,7 @@ bool RandomPlayerbotMgr::HandlePlayerbotConsoleCommand(ChatHandler* handler, cha
 
     if (!args || !*args)
     {
-        sLog.outError("Usage: rndbot stats/update/reset/init/refresh/add/remove");
+        sLog.outError("Usage: rndbot stats/update/reset/flush/init/refresh/add/remove");
         return false;
     }
 
@@ -3266,6 +3266,54 @@ bool RandomPlayerbotMgr::HandlePlayerbotConsoleCommand(ChatHandler* handler, cha
         CharacterDatabase.PExecute("delete from ai_playerbot_random_bots");
         sRandomPlayerbotMgr.eventCache.clear();
         sLog.outString("Random bots were reset for all players. Please restart the Server.");
+        return true;
+    }
+
+    if (cmd == "flush")
+    {
+        // Collect online random bot GUIDs before modifying anything,
+        // skipping any bot that is grouped with at least one real player.
+        std::vector<uint32> botGuids;
+        sRandomPlayerbotMgr.ForEachPlayerbot([&](Player* bot)
+        {
+            if (!bot || !bot->GetPlayerbotAI() || bot->GetPlayerbotAI()->IsRealPlayer())
+                return;
+
+            Group* group = bot->GetGroup();
+            if (group)
+            {
+                for (GroupReference* gref = group->GetFirstMember(); gref; gref = gref->next())
+                {
+                    Player* member = gref->getSource();
+                    if (member && member != bot && !member->GetPlayerbotAI())
+                        return; // real player in group — leave this bot alone
+                }
+            }
+
+            botGuids.push_back(bot->GetGUIDLow());
+        });
+
+        for (uint32 guid : botGuids)
+        {
+            // Expire 'add' in both DB and cache so the bot is eligible for re-login
+            sRandomPlayerbotMgr.SetEventValue(guid, "add", 0, 0);
+            // Remove from the active list so AddRandomBots() can re-add it on the next cycle
+            sRandomPlayerbotMgr.currentBots.remove(guid);
+            // Log the bot out directly, bypassing the async rate-limiter
+            sRandomPlayerbotMgr.LogoutPlayerBot(guid);
+        }
+
+        // Wipe the full event cache so every bot starts fresh on its next login
+        sRandomPlayerbotMgr.eventCache.clear();
+
+        std::ostringstream msg;
+        msg << botGuids.size() << " random bot(s) flushed. They will reconnect on the next update cycle.";
+        sLog.outString("%s", msg.str().c_str());
+
+        Player* requester = handler->GetSession() ? handler->GetSession()->GetPlayer() : nullptr;
+        if (requester)
+            requester->SendMessageToPlayer(msg.str());
+
         return true;
     }
 
