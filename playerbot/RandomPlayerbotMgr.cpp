@@ -3443,7 +3443,7 @@ bool RandomPlayerbotMgr::HandlePlayerbotConsoleCommand(ChatHandler* handler, cha
     }
 
     bool isRA = false;
-    
+
     if (handler->GetSession()) //Client command
         isRA = true;
     else if (static_cast<CliHandler*>(handler) && static_cast<CliHandler*>(handler)->GetAccountId()) //RA call with account.
@@ -3503,7 +3503,7 @@ bool RandomPlayerbotMgr::HandlePlayerbotConsoleCommand(ChatHandler* handler, cha
         {
             sLog.outString("%s", msg.c_str());
             if(isRA)
-                handler->SendSysMessage(msg.c_str());      
+                handler->SendSysMessage(msg.c_str());
         }
 
         if (!messages.empty() && (prefix != "help" || param != "commands"))
@@ -4863,7 +4863,7 @@ std::unordered_map<std::string, std::string> RandomPlayerbotMgr::GetCommandTexts
 std::list<std::string> RandomPlayerbotMgr::HandleHelp(std::string param)
 {
     std::list<std::string> messages;
-        
+
     if (param.empty())
     {
         messages.push_back("Type 'help commands for all available commands.");
@@ -4883,13 +4883,13 @@ std::list<std::string> RandomPlayerbotMgr::HandleHelp(std::string param)
         messages.push_back(commands);
         return messages;
     }
-    
-    
+
+
     std::string helpText = GetCommandTexts(param);
     if (!helpText.empty())
     {
         messages.push_back(helpText);
-    }  
+    }
     return messages;
 }
 
@@ -5500,7 +5500,7 @@ uint32 RandomPlayerbotMgr::GetOrCreateAccount(Player* master, std::string& error
             }
 
             error = "Failed to create account";
-            return 0;        
+            return 0;
         }
 
         uint32 charCount = sAccountMgr.GetCharactersCount(accountId);
@@ -5529,13 +5529,13 @@ void RandomPlayerbotMgr::OnBotDeleted(uint32 botGuid, uint32 accountId)
     #ifdef MANGOSBOT_TWO
         maxCharsPerAccount = 10;
     #endif
-    
+
         if (sAccountMgr.GetCharactersCount(accountId) == 0)
         {
             std::ostringstream prefix;
             prefix << sPlayerbotAIConfig.randomBotAccountPrefix;
             size_t prefixLen = prefix.str().length();
-            
+
             auto result = LoginDatabase.PQuery("SELECT username FROM account WHERE id = '%u'", accountId);
             if (result)
             {
