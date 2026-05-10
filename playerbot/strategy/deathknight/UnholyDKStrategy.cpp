@@ -19,7 +19,7 @@ public:
 		//creators["unholy blight"] = &unholy_blight;
 		creators["scourge strike"] = &scourge_strike;
 		//creators["death and decay"] = &death_and_decay;
-		//creators["unholy pressence"] = &unholy_pressence;
+		//creators["unholy presence"] = &unholy_pressence;
 		//creators["raise dead"] = &raise_dead;
 		//creators["army of the dead"] = &army of the dead;
 		//creators["summon gargoyle"] = &army of the dead;
@@ -33,21 +33,21 @@ private:
 	static ActionNode* death_strike(PlayerbotAI* ai)
 	{
 		return new ActionNode("death strike",
-			/*P*/ NextAction::array(0, new NextAction("unholy pressence"), NULL),
+			/*P*/ NextAction::array(0, new NextAction("unholy presence"), NULL),
 			/*A*/ NULL,
 			/*C*/ NULL);
 	}
 	static ActionNode* corpse_explosion(PlayerbotAI* ai)
 	{
 		return new ActionNode("corpse explosion",
-			/*P*/ NextAction::array(0, new NextAction("unholy pressence"), NULL),
+			/*P*/ NextAction::array(0, new NextAction("unholy presence"), NULL),
 			/*A*/ NULL,
 			/*C*/ NULL);
 	}
 	static ActionNode* scourge_strike(PlayerbotAI* ai)
 	{
 		return new ActionNode("scourge strike",
-			/*P*/ NextAction::array(0, new NextAction("unholy pressence"), NULL),
+			/*P*/ NextAction::array(0, new NextAction("unholy presence"), NULL),
 			/*A*/ NextAction::array(0, new NextAction("death strike"), NULL),
 			/*C*/ NULL);
 	}
@@ -61,6 +61,10 @@ NextAction** UnholyDKStrategy::GetDefaultCombatActions()
 void UnholyDKStrategy::InitCombatTriggers(std::list<TriggerNode*> &triggers)
 {
     GenericDKStrategy::InitCombatTriggers(triggers);
+
+    triggers.push_back(new TriggerNode(
+        "unholy presence",
+        NextAction::array(0, new NextAction("unholy presence", ACTION_MOVE), NULL)));
 
 	triggers.push_back(new TriggerNode(
 		"often",

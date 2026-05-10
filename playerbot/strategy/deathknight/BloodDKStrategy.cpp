@@ -75,6 +75,10 @@ void BloodDKStrategy::InitCombatTriggers(std::list<TriggerNode*> &triggers)
     GenericDKStrategy::InitCombatTriggers(triggers);
 
     triggers.push_back(new TriggerNode(
+        "frost presence",
+        NextAction::array(0, new NextAction("frost presence", ACTION_MOVE), NULL)));
+
+    triggers.push_back(new TriggerNode(
         "has blessing of salvation",
         NextAction::array(0, new NextAction("remove blessing of salvation", ACTION_EMERGENCY), NULL)));
 

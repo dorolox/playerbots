@@ -78,6 +78,10 @@ void FrostDKStrategy::InitCombatTriggers(std::list<TriggerNode*> &triggers)
     GenericDKStrategy::InitCombatTriggers(triggers);
 
     triggers.push_back(new TriggerNode(
+        "blood presence",
+        NextAction::array(0, new NextAction("blood presence", ACTION_MOVE), NULL)));
+
+    triggers.push_back(new TriggerNode(
         "empower weapon",
         NextAction::array(0, new NextAction("empower weapon", ACTION_NORMAL + 4), NULL)));
 }
