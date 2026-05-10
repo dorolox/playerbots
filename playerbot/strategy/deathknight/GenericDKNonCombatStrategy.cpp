@@ -39,6 +39,10 @@ void GenericDKNonCombatStrategy::InitNonCombatTriggers(std::list<TriggerNode*> &
     NonCombatStrategy::InitNonCombatTriggers(triggers);
 
 	triggers.push_back(new TriggerNode(
+		"dk presence",
+		NextAction::array(0, new NextAction("blood presence", ACTION_NORMAL + 1), NULL)));
+
+	triggers.push_back(new TriggerNode(
 		"raise dead",
 		NextAction::array(0, new NextAction("raise dead", ACTION_NORMAL + 1), NULL)));
 

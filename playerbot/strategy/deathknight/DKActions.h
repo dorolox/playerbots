@@ -31,9 +31,6 @@ namespace ai
 	class CastDarkCommandAction : public CastBuffSpellAction {
 	public:
 		CastDarkCommandAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "dark command") {}
-		virtual NextAction** getPrerequisites() {
-			return NextAction::merge(NextAction::array(0, new NextAction("blood presence"), NULL), CastSpellAction::getPrerequisites());
-		}
 	};
 
 	BEGIN_RANGED_SPELL_ACTION(CastDeathGripAction, "death grip")

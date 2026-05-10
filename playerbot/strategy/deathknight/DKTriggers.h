@@ -7,6 +7,9 @@ namespace ai
     BUFF_TRIGGER(HornOfWinterTrigger, "horn of winter");
     BUFF_TRIGGER(BoneShieldTrigger, "bone shield");
     BUFF_TRIGGER(ImprovedIcyTalonsTrigger, "improved icy talons");
+    BUFF_TRIGGER(FrostPresenceTrigger, "frost presence");
+    BUFF_TRIGGER(BloodPresenceTrigger, "blood presence");
+    BUFF_TRIGGER(UnholyPresenceTrigger, "unholy presence");
     DEBUFF_TRIGGER(PlagueStrikeDebuffTrigger, "plague strike");
     DEBUFF_TRIGGER(IcyTouchDebuffTrigger, "icy touch");
 
