@@ -73,6 +73,10 @@ namespace ai
             TriggerFactoryInternal()  
             {
                 creators["bone shield"] = [](PlayerbotAI* ai) { return new BoneShieldTrigger(ai); };
+                creators["frost presence"] = [](PlayerbotAI* ai) { return new FrostPresenceTrigger(ai); };
+                creators["blood presence"] = [](PlayerbotAI* ai) { return new BloodPresenceTrigger(ai); };
+                creators["unholy presence"] = [](PlayerbotAI* ai) { return new UnholyPresenceTrigger(ai); };
+                creators["dk presence"] = [](PlayerbotAI* ai) { return new DKPresenceTrigger(ai); };
                 creators["pestilence"] = [](PlayerbotAI* ai) { return new PestilenceTrigger(ai); };
                 creators["blood strike"] = [](PlayerbotAI* ai) { return new BloodStrikeTrigger(ai); };
 				creators["plague strike"] = [](PlayerbotAI* ai) { return new PlagueStrikeDebuffTrigger(ai); };
@@ -119,7 +123,7 @@ namespace ai
 				creators["unholy blight"] = [](PlayerbotAI* ai) { return new CastUnholyBlightAction(ai); };
 				creators["scourge strike"] = [](PlayerbotAI* ai) { return new CastScourgeStrikeAction(ai); };
 				creators["death and decay"] = [](PlayerbotAI* ai) { return new CastDeathAndDecayAction(ai); };
-				creators["unholy pressence"] = [](PlayerbotAI* ai) { return new CastUnholyPresenceAction(ai); };
+				creators["unholy presence"] = [](PlayerbotAI* ai) { return new CastUnholyPresenceAction(ai); };
 				creators["raise dead"] = [](PlayerbotAI* ai) { return new CastRaiseDeadAction(ai); };
 				creators["army of the dead"] = [](PlayerbotAI* ai) { return new CastArmyOfTheDeadAction(ai); };
 				creators["summon gargoyle"] = [](PlayerbotAI* ai) { return new CastSummonGargoyleAction(ai); };
