@@ -999,7 +999,7 @@ void AiFactory::AddDefaultNonCombatStrategies(Player* player, PlayerbotAI* const
         {
             if (master)
             {
-                if (master->GetPlayerbotAI() || sRandomPlayerbotMgr.IsFreeBot(player))
+                if (master->GetPlayerbotAI())
                 {
                     nonCombatEngine->addStrategy("collision");
                     nonCombatEngine->addStrategy("grind");
