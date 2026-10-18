@@ -348,7 +348,7 @@ public:
     bool autoLearnDroppedSpells;
     bool autoDoQuests;
     bool syncLevelWithPlayers;
-    uint32 syncLevelMaxAbove, syncLevelNoPlayer;
+    uint32 syncLevelMaxAbove, syncLevelMinBelow, syncLevelNoPlayer;
     bool syncAltLevelToMaster;
     uint32 tweakValue; //Debugging config
     float respawnModNeutral, respawnModHostile;

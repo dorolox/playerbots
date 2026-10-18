@@ -8,6 +8,7 @@
 #include "WorldPosition.h"
 #include <map>
 #include <list>
+#include <atomic>
 
 class WorldPacket;
 class Player;
@@ -170,6 +171,8 @@ public:
             auto it = ahMirror.find(itemId);
             return (it != ahMirror.end()) ? it->second : emptyVector;}
         uint32 GetPlayersLevel() { return playersLevel; }
+        uint32 GetSyncMaxLevel() const;
+        uint32 GetSyncMinLevel() const;
     protected:
         virtual void OnBotLoginInternal(Player * const bot) override;
     private:
@@ -284,7 +287,8 @@ public:
         std::list<uint32> currentBots;
         std::list<uint32> arenaTeamMembers;
         uint32 bgBotsCount;
-        uint32 playersLevel = 0;
+        std::atomic<uint32> playersLevel = 0;
+        std::atomic<uint32> playersMinLevel = 0;
         uint32 botCount = 0;
         uint32 activeBots = 0;        
 

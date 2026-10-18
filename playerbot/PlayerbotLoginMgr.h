@@ -155,6 +155,7 @@ namespace ai
 
 		static uint32 GetMaxOnlineBotCount();
 		static uint32 GetMaxLevel();
+		static uint32 GetMinLevel();
 		static uint32 GetClassRaceBucketSize(uint8 cls, uint8 race);
 		static uint32 GetLevelBucketSize(uint32 level);
 		static void FillLoginSpace(BotPool* pool, LoginSpace& space, FillStep step);
