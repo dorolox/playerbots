@@ -43,15 +43,15 @@ PlayerLoginInfo::PlayerLoginInfo(Player* player) : PlayerLoginInfo(player->GetSe
 uint32 PlayerLoginInfo::GetLevel() const
 {
     if (!isNew || sPlayerbotAIConfig.disableRandomLevels)
-        return level;
+        return std::min(level, uint32(DEFAULT_MAX_LEVEL));
 
     uint32 minRandomLevel, maxRandomLevel;
 
-    minRandomLevel = sPlayerbotAIConfig.randomBotMinLevel;
+    maxRandomLevel = sRandomPlayerbotMgr.GetSyncMaxLevel();
 
-    maxRandomLevel = std::max(sPlayerbotAIConfig.randomBotMinLevel, std::min(sRandomPlayerbotMgr.GetPlayersLevel() + sPlayerbotAIConfig.syncLevelMaxAbove, sWorld.getConfig(CONFIG_UINT32_MAX_PLAYER_LEVEL)));
+    minRandomLevel = std::max(sPlayerbotAIConfig.randomBotMinLevel, std::min(sRandomPlayerbotMgr.GetSyncMinLevel(), maxRandomLevel));
 
-    return (minRandomLevel + maxRandomLevel) / 2;
+    return std::min((minRandomLevel + maxRandomLevel) / 2, uint32(DEFAULT_MAX_LEVEL));
 }
 
 bool PlayerLoginInfo::IsNearPlayer(const LoginSpace& space) const
@@ -717,7 +717,12 @@ void PlayerBotLoginMgr::LoginLogoutBots(const BotInfos& queue)
 
 uint32 PlayerBotLoginMgr::GetMaxLevel() 
 {
-    return std::max(sPlayerbotAIConfig.randomBotMinLevel, std::min(sRandomPlayerbotMgr.GetPlayersLevel() + sPlayerbotAIConfig.syncLevelMaxAbove, sWorld.getConfig(CONFIG_UINT32_MAX_PLAYER_LEVEL)));
+    return sRandomPlayerbotMgr.GetSyncMaxLevel();
+}
+
+uint32 PlayerBotLoginMgr::GetMinLevel()
+{
+    return std::max(1u, sRandomPlayerbotMgr.GetSyncMinLevel());
 }
 
 uint32 PlayerBotLoginMgr::GetMaxOnlineBotCount() 
@@ -741,15 +746,21 @@ uint32 PlayerBotLoginMgr::GetClassRaceBucketSize(uint8 cls, uint8 race)
 uint32 PlayerBotLoginMgr::GetLevelBucketSize(uint32 level) 
 {
     uint32 prob = sPlayerbotAIConfig.levelProbability[level];
+    uint32 maxLevel = GetMaxLevel();
+    uint32 minLevel = GetMinLevel();
 
-    if (prob == 0 || level > GetMaxLevel())
+    if (prob == 0 || level > maxLevel || level < minLevel)
         return 0;
 
     uint32 levelProbabilityTotal = 0;
-    for (uint32 level = 1; level < GetMaxLevel(); ++level)
+    for (uint32 level = minLevel; level < maxLevel; ++level)
     {
         levelProbabilityTotal += sPlayerbotAIConfig.levelProbability[level];
     }
+
+    // empty range (min == max): give all the space to the only allowed level
+    if (!levelProbabilityTotal)
+        return GetMaxOnlineBotCount();
 
     return GetMaxOnlineBotCount() * sPlayerbotAIConfig.levelProbability[level] / levelProbabilityTotal;
 }

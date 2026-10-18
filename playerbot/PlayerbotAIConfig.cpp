@@ -641,6 +641,7 @@ bool PlayerbotAIConfig::Initialize()
     autoDoQuests = config.GetBoolDefault("AiPlayerbot.AutoDoQuests", true);
     syncLevelWithPlayers = config.GetBoolDefault("AiPlayerbot.SyncLevelWithPlayers", false);
     syncLevelMaxAbove = config.GetIntDefault("AiPlayerbot.SyncLevelMaxAbove", 5);
+    syncLevelMinBelow = config.GetIntDefault("AiPlayerbot.SyncLevelMinBelow", 0);
     syncLevelNoPlayer = config.GetIntDefault("AiPlayerbot.SyncLevelNoPlayer", randombotStartingLevel);
     syncAltLevelToMaster = config.GetBoolDefault("AiPlayerbot.SyncAltLevelToMaster", false);
     tweakValue = config.GetIntDefault("AiPlayerbot.TweakValue", 0);

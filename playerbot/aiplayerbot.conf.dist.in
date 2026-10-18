@@ -87,6 +87,8 @@ AiPlayerbot.RandomBotAccountCount = 200
 # It defaults to AiPlayerbot.randombotStartingLevel.
 # AiPlayerbot.SyncLevelWithPlayers = 0
 # AiPlayerbot.SyncLevelMaxAbove = 5
+# Limit random bot min level to online players min level - X (0 = disabled, GMs ignored). Requires SyncLevelWithPlayers = 1.
+# AiPlayerbot.SyncLevelMinBelow = 0
 # AiPlayerbot.SyncLevelNoPlayer = 5
 
 # Sync non-random bot alt levels to master level automatically
