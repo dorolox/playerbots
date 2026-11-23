@@ -24,7 +24,10 @@ namespace ai
                 creators["boost"] = [](PlayerbotAI* ai) { return new BoostPlaceholderStrategy(ai); };
                 creators["pull"] = [](PlayerbotAI* ai) {
 #ifdef MANGOSBOT_TWO
-                    return new PullStrategy(ai, "judgement of light", "seal of righteousness");
+                    if (ai->HasSpell("avenger's shield"))
+                        return new PullStrategy(ai, "avenger's shield", "seal of righteousness");
+                    else
+                        return new PullStrategy(ai, "judgement of light", "seal of righteousness");
 #endif
 #ifdef MANGOSBOT_ONE
                     if (ai->HasSpell(31935))
@@ -295,6 +298,7 @@ namespace ai
                 creators["turn undead"] = [](PlayerbotAI* ai) { return new TurnUndeadTrigger(ai); };
                 creators["avenger's shield"] = [](PlayerbotAI* ai) { return new AvengerShieldTrigger(ai); };
                 creators["consecration"] = [](PlayerbotAI* ai) { return new ConsecrationTrigger(ai); };
+                creators["consecration aoe"] = [](PlayerbotAI* ai) { return new ConsecrationAoeTrigger(ai); };
                 creators["exorcism"] = [](PlayerbotAI* ai) { return new ExorcismTrigger(ai); };
                 creators["repentance on enemy healer"] = [](PlayerbotAI* ai) { return new RepentanceOnHealerTrigger(ai); };
                 creators["repentance on snare target"] = [](PlayerbotAI* ai) { return new RepentanceSnareTrigger(ai); };

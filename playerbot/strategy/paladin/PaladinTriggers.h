@@ -41,6 +41,14 @@ namespace ai
         bool IsActive() override;
     };
 
+    // At least 2 enemies inside Consecration's 8 yd radius around the paladin, and no crowd-controlled enemy that it would break
+    class ConsecrationAoeTrigger : public Trigger
+    {
+    public:
+        ConsecrationAoeTrigger(PlayerbotAI* ai) : Trigger(ai, "consecration aoe") {}
+        bool IsActive() override;
+    };
+
     class ExorcismTrigger : public SpellNoCooldownTrigger
     {
     public:

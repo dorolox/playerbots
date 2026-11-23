@@ -1090,6 +1090,11 @@ void ProtectionPaladinStrategy::InitCombatTriggers(std::list<TriggerNode*>& trig
         "lose aggro",
         NextAction::array(0, new NextAction("hand of reckoning", ACTION_PASSTROUGH), NULL)));
 
+    // Throw Avenger's Shield before running in: must outrank "reach melee" (ACTION_MOVE)
+    triggers.push_back(new TriggerNode(
+        "enemy out of melee",
+        NextAction::array(0, new NextAction("avenger's shield", ACTION_MOVE + 1), NULL)));
+
     triggers.push_back(new TriggerNode(
         "protect party member",
         NextAction::array(0, new NextAction("blessing of protection on party", ACTION_CRITICAL_HEAL), NULL)));
@@ -1236,8 +1241,8 @@ void ProtectionPaladinAoeStrategy::InitCombatTriggers(std::list<TriggerNode*>& t
                              new NextAction("avenger's shield", ACTION_HIGH + 2), NULL)));
 
     triggers.push_back(new TriggerNode(
-        "melee light aoe",
-        NextAction::array(0, new NextAction("consecration", ACTION_HIGH + 1), NULL)));
+        "consecration aoe",
+        NextAction::array(0, new NextAction("consecration", ACTION_HIGH + 4), NULL)));
 
     triggers.push_back(new TriggerNode(
         "consecration",

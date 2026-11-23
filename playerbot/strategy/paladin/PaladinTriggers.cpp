@@ -2,6 +2,7 @@
 #include "playerbot/playerbot.h"
 #include "PaladinTriggers.h"
 #include "PaladinActions.h"
+#include "playerbot/strategy/values/PossibleAttackTargetsValue.h"
 
 using namespace ai;
 
@@ -289,6 +290,27 @@ bool ConsecrationTrigger::IsActive()
     }
 
     return false;
+}
+
+bool ConsecrationAoeTrigger::IsActive()
+{
+    static constexpr float consecrationRadius = 8.0f;
+    static constexpr uint32 minEnemies = 2;
+
+    uint32 enemies = 0;
+    for (const ObjectGuid& guid : AI_VALUE(std::list<ObjectGuid>, "attackers"))
+    {
+        Unit* unit = ai->GetUnit(guid);
+        if (!unit || !unit->IsAlive() || !bot->IsWithinDist(unit, consecrationRadius))
+            continue;
+
+        if (PossibleAttackTargetsValue::HasBreakableCC(unit, bot))
+            return false;
+
+        enemies++;
+    }
+
+    return enemies >= minEnemies;
 }
 
 bool ExorcismTrigger::IsActive()
