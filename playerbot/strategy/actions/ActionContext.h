@@ -22,6 +22,7 @@
 #include "GreetAction.h"
 #include "ImbueAction.h"
 #include "MovementActions.h"
+#include "playerbot/strategy/generic/RangedSpacingStrategy.h"
 #include "MoveToRpgTargetAction.h"
 #include "MoveToTravelTargetAction.h"
 #include "OutfitAction.h"
@@ -119,6 +120,7 @@ namespace ai
             creators["reach party member to heal"] = [](PlayerbotAI* ai) { return new ReachPartyMemberToHealAction(ai); };
             creators["reach party member for totem"] = [](PlayerbotAI* ai) { return new ReachPartyMemberForTotemAction(ai); };
             creators["flee"] = [](PlayerbotAI* ai) { return new FleeAction(ai); };
+            creators["ranged spacing"] = [](PlayerbotAI* ai) { return new RangedSpacingAction(ai); };
             creators["flee with pet"] = [](PlayerbotAI* ai) { return new FleeWithPetAction(ai); };
             creators["wait for attack keep safe distance"] = [](PlayerbotAI* ai) { return new WaitForAttackKeepSafeDistanceAction(ai); };
             creators["shoot"] = [](PlayerbotAI* ai) { return new CastShootAction(ai); };

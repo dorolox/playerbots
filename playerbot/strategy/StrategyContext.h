@@ -31,6 +31,7 @@
 #include "generic/MeleeCombatStrategy.h"
 #include "generic/PullStrategy.h"
 #include "generic/RangedCombatStrategy.h"
+#include "generic/RangedSpacingStrategy.h"
 #include "generic/ReturnStrategy.h"
 #include "generic/RpgStrategy.h"
 #include "generic/TravelStrategy.h"
@@ -118,6 +119,7 @@ namespace ai
             creators["ads"] = [](PlayerbotAI* ai) { return new PossibleAddsStrategy(ai); };
             creators["close"] = [](PlayerbotAI* ai) { return new MeleeCombatStrategy(ai); };
             creators["ranged"] = [](PlayerbotAI* ai) { return new RangedCombatStrategy(ai); };
+            creators["ranged spacing"] = [](PlayerbotAI* ai) { return new RangedSpacingStrategy(ai); };
             creators["behind"] = [](PlayerbotAI* ai) { return new SetBehindCombatStrategy(ai); };
             creators["bg"] = [](PlayerbotAI* ai) { return new BGStrategy(ai); };
             creators["battleground"] = [](PlayerbotAI* ai) { return new BattlegroundStrategy(ai); };

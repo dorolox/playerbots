@@ -22,6 +22,7 @@
 #include "MechanarDungeonTriggers.h"
 #include "GlyphTriggers.h"
 #include "WorldBuffTravelTriggers.h"
+#include "playerbot/strategy/generic/RangedSpacingStrategy.h"
 
 #ifdef GenerateBotTests
 #include "../tests/TestTriggers.h"
@@ -113,6 +114,7 @@ namespace ai
             creators["enemy out of melee"] = [](PlayerbotAI* ai) { return new EnemyOutOfMeleeTrigger(ai); };
             creators["enemy out of spell"] = [](PlayerbotAI* ai) { return new EnemyOutOfSpellRangeTrigger(ai); };
             creators["enemy too close for spell"] = [](PlayerbotAI* ai) { return new EnemyTooCloseForSpellTrigger(ai); };
+            creators["ranged spacing"] = [](PlayerbotAI* ai) { return new RangedSpacingTrigger(ai); };
             creators["enemy too close for shoot"] = [](PlayerbotAI* ai) { return new EnemyTooCloseForShootTrigger(ai); };
             creators["enemy too close for melee"] = [](PlayerbotAI* ai) { return new EnemyTooCloseForMeleeTrigger(ai); };
             creators["enemy is close"] = [](PlayerbotAI* ai) { return new EnemyIsCloseTrigger(ai); };

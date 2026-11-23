@@ -298,6 +298,9 @@ void AiFactory::AddDefaultCombatStrategies(Player* player, PlayerbotAI* const fa
     combatEngine->addStrategy("dungeon");
     combatEngine->addStrategy("avoid specific creatures");
 
+    if (sPlayerbotAIConfig.rangedSpacing)
+        combatEngine->addStrategy("ranged spacing");
+
     if (!player->InBattleGround())
     {
         combatEngine->addStrategies("racials", "default", "duel", "pvp", NULL);

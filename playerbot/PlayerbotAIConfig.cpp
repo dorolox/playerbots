@@ -265,6 +265,8 @@ bool PlayerbotAIConfig::Initialize()
     logValuesPerTick = config.GetBoolDefault("AiPlayerbot.LogValuesPerTick", false);
     actionHistorySize = (uint32)config.GetIntDefault("AiPlayerbot.ActionHistorySize", 0);
     fleeingEnabled = config.GetBoolDefault("AiPlayerbot.FleeingEnabled", true);
+    rangedSpacing = config.GetBoolDefault("AiPlayerbot.RangedSpacing", true);
+    rangedSpacingDistance = config.GetFloatDefault("AiPlayerbot.RangedSpacingDistance", 12.0f);
     motionlessGiveUpSec = (uint32)config.GetIntDefault("AiPlayerbot.MotionlessGiveUpSec", 30);
     summonAtInnkeepersEnabled = config.GetBoolDefault("AiPlayerbot.SummonAtInnkeepersEnabled", true);
     randomBotMinLevel = config.GetIntDefault("AiPlayerbot.RandomBotMinLevel", 1);

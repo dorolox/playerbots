@@ -920,6 +920,12 @@ AiPlayerbot.RpgDistance = 200
 # Bot can flee for enemy
 AiPlayerbot.FleeingEnabled = 1
 
+# Ranged dps and healers step back when an attacker (not attacking them) is closer than RangedSpacingDistance yards,
+# while keeping their target in range. In game: "co -ranged spacing" / "co +ranged spacing"
+# Default: 1, 12.0
+AiPlayerbot.RangedSpacing = 1
+AiPlayerbot.RangedSpacingDistance = 12.0
+
 # Health/Mana levels
 #AiPlayerbot.CriticalHealth = 25
 #AiPlayerbot.LowHealth = 45
