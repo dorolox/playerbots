@@ -584,10 +584,17 @@ void PlayerbotAI::UpdateAI(uint32 elapsed, bool minimal)
         else if (bot->GetTransport())
         {
             WorldPosition botPos(bot);
+            const std::string transportName = bot->GetTransport()->GetName();
             ai::TransportTrace::instance().Event(bot, bot->GetTransport(), "ride", "eject_guard", "master_transport_mismatch");
             bot->GetTransport()->RemovePassenger(bot);
             bot->NearTeleportTo(bot->m_movementInfo.pos.x, bot->m_movementInfo.pos.y, bot->m_movementInfo.pos.z, bot->m_movementInfo.pos.o);
-            MANGOS_ASSERT(botPos.fDist(bot) < 500.0f);
+            // TEMPORARY workaround (doro-changes, CRASH-004): the upstream assert below kills the whole server when the
+            // ejected bot lands more than 500 yd away (seen twice near the Tirisfal zeppelin towers). Log it instead and keep
+            // the bot at its new ground position. Remove this and restore the assert once upstream fixes the eject path.
+            // MANGOS_ASSERT(botPos.fDist(bot) < 500.0f);
+            if (botPos.fDist(bot) >= 500.0f)
+                sLog.outError("PlayerbotAI::UpdateAI: bot %s ejected from transport %s (master_transport_mismatch) jumped %.0f yd from (%.1f, %.1f, %.1f) to (%.1f, %.1f, %.1f) on map %u - assert bypassed (CRASH-004)",
+                    bot->GetName(), transportName.c_str(), botPos.fDist(bot), botPos.getX(), botPos.getY(), botPos.getZ(), bot->GetPositionX(), bot->GetPositionY(), bot->GetPositionZ(), bot->GetMapId());
         }
     }
     else if (!HasRealPlayerMaster() && !bot->IsBeingTeleported() && bot->GetTransport() && bot->GetMapId() == bot->GetTransport()->GetMapId() && !WorldPosition(bot).isOnTransport(bot->GetTransport()) && !isMovingToTransport)
@@ -606,9 +613,16 @@ void PlayerbotAI::UpdateAI(uint32 elapsed, bool minimal)
             ai::TransportTrace::instance().Event(bot, bot->GetTransport(), "ride", "eject_guard", "vmap_ray_miss");
 
             WorldPosition botPos(bot);
+            const std::string transportName = bot->GetTransport()->GetName();
             bot->GetTransport()->RemovePassenger(bot);
             bot->NearTeleportTo(bot->m_movementInfo.pos.x, bot->m_movementInfo.pos.y, bot->m_movementInfo.pos.z, bot->m_movementInfo.pos.o);
-            MANGOS_ASSERT(botPos.fDist(bot) < 500.0f);
+            // TEMPORARY workaround (doro-changes, CRASH-004): the upstream assert below kills the whole server when the
+            // ejected bot lands more than 500 yd away (seen twice near the Tirisfal zeppelin towers). Log it instead and keep
+            // the bot at its new ground position. Remove this and restore the assert once upstream fixes the eject path.
+            // MANGOS_ASSERT(botPos.fDist(bot) < 500.0f);
+            if (botPos.fDist(bot) >= 500.0f)
+                sLog.outError("PlayerbotAI::UpdateAI: bot %s ejected from transport %s (vmap_ray_miss) jumped %.0f yd from (%.1f, %.1f, %.1f) to (%.1f, %.1f, %.1f) on map %u - assert bypassed (CRASH-004)",
+                    bot->GetName(), transportName.c_str(), botPos.fDist(bot), botPos.getX(), botPos.getY(), botPos.getZ(), bot->GetPositionX(), bot->GetPositionY(), bot->GetPositionZ(), bot->GetMapId());
             bot->StopMoving();
         }
     }
